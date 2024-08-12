@@ -6,13 +6,46 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/08/13 04:18:32 by wchow            ###   ########.fr       */
+/*   Updated: 2024/08/13 04:53:44 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_H
 # define TEST_H
-//GNL includes
+#include "./libft/libft.h"
+#include "./printf/includes/ft_printf.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+typedef struct s_data
+{
+	char	**env;
+	//char	*input;
+}	t_data;
+
+//Initialisation
+void	initData(t_data *data, char **env);
+
+//Signals
+void	handleSignals();
+void	ignore_sigquit();
+void	resetPrompt(int signum);
+
+//Processing
+void	start(t_data *data);
+void	process(char *input, t_data *data);
+
+//Exit
+void	freeData(t_data *data);
+
+#endif
+
+/* //GNL includes
 # include <stdlib.h>
 # include <stddef.h>
 # include <string.h>
@@ -31,22 +64,4 @@ void	ft_free(char **s1, char **s2, char **s3);
 int		got_newline(char *storage);
 int		ft_strlen2(char *str);
 
-//GNL includes
-#include "./libft/libft.h"
-#include "./printf/includes/ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-typedef struct s_data
-{
-	char	**env;
-}	t_data;
-
-void	freeData(t_data *data);
-
-#endif
+//GNL includes */
