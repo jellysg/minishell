@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 04:51:00 by wchow             #+#    #+#             */
-/*   Updated: 2024/08/13 04:51:17 by wchow            ###   ########.fr       */
+/*   Updated: 2024/08/13 06:20:31 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	freeData(t_data *data)
 	while (++i >= -1 && data->env[i])
 		free (data->env[i]);
 	free(data->env);
+	free(data->path);
 	free(data);
 }
