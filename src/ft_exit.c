@@ -19,13 +19,16 @@ void	free_data(t_data *data, int exit_code)
 	i = -1;
 	while (++i >= -1 && data->env[i])
 		free (data->env[i]);
-	i = -1;
-	while (++i >= -1 && data->args[i])
-		free (data->args[i]);
+	if (data->args)	
+	{
+		i = -1;
+		while (++i >= -1 && data->args[i])
+			free (data->args[i]);
+		free(data->args);
+	}
 	free(data->env);
 	free(data->path);
 	free(data->input);
-	free(data->args);
 	free(data);
 	exit(exit_code);
 }
@@ -48,6 +51,6 @@ int	ft_exit(t_data *data)
 		else 
 			free_data(data, ft_atoi(data->args[1]));
 	}
-	exit(0);
+	free_data(data, ft_atoi(data->args[1]));
 	return (0);
 }

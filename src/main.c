@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 20:51:35 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:06:35 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,6 @@ int	main(int argc, char **argv, char **env)
 	initData(data, env);
 
 	start(data);
-	ft_exit(data);
+	free_data(data, 0);
 	return (0);
 }
