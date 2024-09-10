@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jergoh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+// free ptr
 void    free_ptr(void *ptr)
 {
     if (ptr != NULL)
@@ -21,7 +22,7 @@ void    free_ptr(void *ptr)
     }
 }
 
-// env_var_count: Returns the number of env vars.
+// returns the number of env vars.
 int	env_count(char **env)
 {
 	int	i;
@@ -32,7 +33,7 @@ int	env_count(char **env)
 	return (i);
 }
 
-// is_valid_env: true if the only alnum chars or '_', else false.
+// true if the only alnum chars or '_', else false.
 bool	is_valid_env(char *var)
 {
 	int	i;
@@ -50,7 +51,7 @@ bool	is_valid_env(char *var)
 	return (true);
 }
 
-// env_index: Index of the variable in the environment matching the string.
+// index of the variable in the environment matching the string.
 int	env_index(char **env, char *var)
 {
 	int		i;
@@ -73,7 +74,7 @@ int	env_index(char **env, char *var)
 	return (-1);
 }
 
-// env_value: pointer of the variable in the environment matching the string.
+// pointer of the variable in the environment matching the string.
 char	*env_value(char **env, char *var)
 {
 	int		i;
