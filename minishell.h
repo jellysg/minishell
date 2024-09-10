@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 20:58:57 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:13:08 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include <readline/history.h>
 
 //Macros
-# define showCmds "Custom commands: echo | env | exit | showpath\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
+# define showCmds "Custom commands: echo | env | exit | showpath | showargs\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
 
 # define STDIN 0
 # define STDOUT 1
