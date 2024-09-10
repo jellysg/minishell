@@ -18,7 +18,8 @@ void	initData(t_data *data, char **env)
 	while (env[i])
 		i++;
 	data->env = ft_calloc(i + 1, sizeof * data->env);
-	for (i = 0; env[i]; i++)
+    i = 0;
+    while (env[i])
 	{
 		data->env[i] = ft_strdup(env[i]);
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
@@ -26,6 +27,7 @@ void	initData(t_data *data, char **env)
 			data->path = ft_strdup(env[i] + 5);
 			break;
 		}
+        i++;
 	}
 	data->env[i] = NULL;
 }

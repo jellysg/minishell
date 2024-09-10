@@ -115,9 +115,32 @@ void	sysCall(char *input, t_data *data)
 
 void	process(char *input, t_data *data)
 {
+    int	result;
+
+	result = CMD_NOT_FOUND;
+	if (!ft_strncmp(input, "help", 4))
+			printf("%s", showCmds);
+	if (ft_strncmp(input, "cd ", 3) == 0)
+		result = ft_cd(data);
+	else if (ft_strncmp(input, "pwd ", 4) == 0)
+		result = ft_pwd(data);
+	else if (ft_strncmp(input, "echo ", 5) == 0)
+		result = ft_echo(data);
+	else if (ft_strncmp(input, "env ", 4) == 0)
+		result = ft_env(data);
+	else if (ft_strncmp(input, "export ", 7) == 0)
+		result = ft_export(data);
+	else if (ft_strncmp(input, "unset ", 6) == 0)
+		result = ft_unset(data);
+	else if (ft_strncmp(input, "exit ", 5) == 0)
+		result = ft_exit(data);
+	return (result);
+
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
 			printf("%s", showCmds);
+    else if (!ft_strncmp(input, "cd ", 3))
+		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "echo ", 5))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "env", 3))
