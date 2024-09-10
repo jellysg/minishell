@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 21:12:56 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:26:52 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,11 @@ void	process(char *input, t_data *data)
 	else if (!ft_strncmp(input, "cd ", 3))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "echo ", 5))
-		ft_printf("%s\n", input + 5);
+		ft_echo(input + 5);
 	else if (!ft_strncmp(input, "env", 3))
 		ft_env(data);
 	else if (!ft_strncmp(input, "exit", 4))
-		ft_exit(data);
+		ft_exit(data, false);
 	else if (!ft_strncmp(input, "showpath", 8))
 		printf("data->path is: %s\n", data->path);
 	else if (!ft_strncmp(input, "showargs", 8))
@@ -174,6 +174,6 @@ int	main(int argc, char **argv, char **env)
 	initData(data, env);
 
 	start(data);
-	ft_exit(data);
+	ft_exit(data, true);
 	return (0);
 }

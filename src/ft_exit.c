@@ -33,23 +33,26 @@ void	free_data(t_data *data, int exit_code)
 	exit(exit_code);
 }
 
-int	ft_exit(t_data *data)
+int	ft_exit(t_data *data, bool ctrl_d)
 {
 	printf("exit\n");
-	if (data->args && data->args[1] && data->args[2])
+	if (ctrl_d == 0)
 	{
-		printf("Invalid. Too many arguments\n");
-		return (1);
-	}
-	else if (data->args && data->args[1] != NULL)
-	{
-		if (!ft_isdigit(data->args[1][0]))
+		if (data->args && data->args[1] && data->args[2])
 		{
-			printf("Invalid. Input numerical value\n");
+			printf("Invalid. Too many arguments\n");
 			return (1);
 		}
-		else 
-			free_data(data, ft_atoi(data->args[1]));
+		else if (data->args && data->args[1] != NULL)
+		{
+			if (!ft_isdigit(data->args[1][0]))
+			{
+				printf("Invalid. Input numerical value\n");
+				return (1);
+			}
+			else 
+				free_data(data, ft_atoi(data->args[1]));
+		}
 	}
 	free_data(data, 0);
 	return (0);
