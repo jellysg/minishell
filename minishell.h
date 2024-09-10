@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 #include "./libft/libft.h"
 #include "./printf/includes/ft_printf.h"
 #include <unistd.h>
@@ -25,7 +25,14 @@
 #include <readline/history.h>
 
 //Macros
+<<<<<<< HEAD
+# define showCmds "Custom commands: echo | env | exit | showpath\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
+=======
 # define showCmds "Custom commands: echo | env | exit | showpath | showargs\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
+>>>>>>> main
 
 # define STDIN 0
 # define STDOUT 1
@@ -35,6 +42,7 @@
 
 typedef struct s_data
 {
+	char	*cwd;
 	char	**env;
 	char	*path;
 	char	**args;
@@ -50,11 +58,19 @@ void	handleSignals();
 void	ignore_sigquit();
 void	resetPrompt(int signum);
 
+//Env
+void    free_ptr(void *ptr);
+int	env_count(char **env);
+bool	is_valid_env(char *var);
+int	env_index(char **env, char *var);
+char	*env_value(char **env, char *var);
+
 //Processing
 void	start(t_data *data);
 void	process(char *input, t_data *data);
 
 //Builtins
+void	ft_cd(char *input, t_data *data);
 void	ft_echo(char *input);
 int	checkNewline(char *input);
 void	ft_env(t_data *data);

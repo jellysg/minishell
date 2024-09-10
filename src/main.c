@@ -127,8 +127,8 @@ void	process(char *input, t_data *data)
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
 		printf("%s", showCmds);
-	else if (!ft_strncmp(input, "cd ", 3))
-		ft_printf("%s\n", input + 5);
+	else if (!ft_strncmp(input, "cd", 2) && (input[2] == ' ' || input[2] == '\0'))
+		ft_cd(input, data);
 	else if (!ft_strncmp(input, "echo ", 5))
 		ft_echo(input + 5);
 	else if (!ft_strncmp(input, "env", 3))
