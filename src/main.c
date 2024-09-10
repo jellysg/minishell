@@ -6,20 +6,29 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:58:12 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 20:51:35 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*For commands that have arguments, this reallocs and resets argv*/
-void	set_argv(char *input, char **argv)
+/*For commands that have arguments, this reallocs and resets argv. Triple * cause I need
+to use it for process function and pass in the address of argv*/
+void	set_argv(char *input, char ***argv)
 {
-	free (argv[0]);
-	free (argv);
-	argv = ft_split(input, ' ');
-	//for (int i = 0; argv[i]; i++)
-	//	printf("argv[%d] = %s\n", i, argv[i]);
+	int	i;
+
+	if (*argv)
+	{
+		i = 0;
+		while ((*argv)[i])
+		{
+			free((*argv)[i]);
+			i++;
+		}
+		free(*argv);
+	}
+	*argv = ft_split(input, ' ');
 }
 
 /*Executes program by forking off a child process then main process waits
@@ -63,7 +72,7 @@ void	sysCall(char *input, t_data *data)
 			ft_fork_and_exec(data, input, argv);
 		else if (ft_strchr(input, ' '))
 		{
-			setArgv(input, argv);
+			set_argv(input, &argv);
 			ft_fork_and_exec(data, argv[0], argv);
 		}
 		else
@@ -84,7 +93,7 @@ void	sysCall(char *input, t_data *data)
 		//Try to plug in input to end of path, see if it's a valid cmd
 		if (ft_strchr(input, ' ')) //If there's argument (ls -a)
 		{
-			setArgv(input, argv);
+			set_argv(input, &argv);
 			fullCmd = ft_strjoin(addSlash, argv[0]);
 		}
 		else  //No argument (ls)
@@ -117,43 +126,37 @@ void	process(char *input, t_data *data)
 {
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
-			printf("%s", showCmds);
+		printf("%s", showCmds);
 	else if (!ft_strncmp(input, "cd ", 3))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "echo ", 5))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "env", 3))
-		for (int i = 0; data->env[i]; i++)
-			printf("%s\n", data->env[i]);
+		ft_env(data);
 	else if (!ft_strncmp(input, "exit", 4))
-	{
-		freeData(data);
-		exit(0);
-	}
+		ft_exit(data);
 	else if (!ft_strncmp(input, "showpath", 8))
 		printf("data->path is: %s\n", data->path);
+	else if (!ft_strncmp(input, "showargs", 8))
+		printf("data->path is: %s\n", data->args[0]);
 	else
 		sysCall(input, data);
 }
 
 void	start(t_data *data)
 {
-	char	*input;
-
 	while (1)
 	{
-		input = readline("\033[1;33m<<Nanoshell>>  \033[0m");
-		if (input && *input)
+		data->input = readline("\033[1;33m<<Nanoshell>>  \033[0m");
+		if (data->input && *data->input)
 		{
-			add_history(input); // Add to history if input is not empty
-			process(input, data); // Main functions
-			free(input);
+			add_history(data->input); // Add to history if input is not empty
+			set_argv(data->input, &(data->args));
+			process(data->input, data); // Main functions
+			free(data->input);
 		}
-		else if (input == NULL) // Handle Ctrl+D (EOF)
-		{
-			printf("exit\n");
+		else if (data->input == NULL) // Handle Ctrl+D (EOF)
 			break;
-		}
 	}
 }
 
@@ -171,6 +174,6 @@ int	main(int argc, char **argv, char **env)
 	initData(data, env);
 
 	start(data);
-	freeData(data);
+	ft_exit(data);
 	return (0);
 }

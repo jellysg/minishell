@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:40:25 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 20:45:27 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ typedef struct s_data
 	char	**env;
 	char	*path;
 	char	**args;
-	//char	*input;
+	char	*input;
 }	t_data;
 
 //Initialisation
 void	initData(t_data *data, char **env);
+void	set_argv(char *input, char ***argv);
 
 //Signals
 void	handleSignals();
@@ -56,6 +57,8 @@ void	process(char *input, t_data *data);
 //Builtins
 void	ft_echo(char *input);
 int	checkNewline(char *input);
+void	ft_env(t_data *data);
+int	ft_exit(t_data *data);
 
 //Exit
 void	freeData(t_data *data);

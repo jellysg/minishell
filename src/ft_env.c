@@ -6,21 +6,20 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:11:21 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 18:16:38 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 19:26:10 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-ahjkdslfhljakdhsfkadjhf
-a;sdkfhakljdhfaklsjdhfjkadhsf
-a;sdkjfhajkldhsfkjalhdsfkjahdsf
-asdfkljahsdlfkjhasdklfhadfjk
-ahjkdslfhljakdhsfkadjhf
-a;sdkfhakljdhfaklsjdhfjkadhsf
-a;sdkjfhajkldhsfkjalhdsfkjahdsf
-asdfkljahsdlfkjhasdklfhadfjkahjkdslfhljakdhsfkadjhf
-a;sdkfhakljdhfaklsjdhfjkadhsf
-a;sdkjfhajkldhsfkjalhdsfkjahdsf
-asdfkljahsdlfkjhasdklfhadfjkahjkdslfhljakdhsfkadjhf
-a;sdkfhakljdhfaklsjdhfjkadhsf
-a;sdkjfhajkldhsfkjalhdsfkjahdsf
-asdfkljahsdlfkjhasdklfhadfjk
+#include "../minishell.h"
+
+void	ft_env(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		printf("%s\n", data->env[i]);
+		i++;
+	}
+}
