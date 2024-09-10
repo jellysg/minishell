@@ -63,7 +63,7 @@ void	sysCall(char *input, t_data *data)
 			ft_fork_and_exec(data, input, argv);
 		else if (ft_strchr(input, ' '))
 		{
-			setArgv(input, argv);
+			set_argv(input, argv);
 			ft_fork_and_exec(data, argv[0], argv);
 		}
 		else
@@ -84,7 +84,7 @@ void	sysCall(char *input, t_data *data)
 		//Try to plug in input to end of path, see if it's a valid cmd
 		if (ft_strchr(input, ' ')) //If there's argument (ls -a)
 		{
-			setArgv(input, argv);
+			set_argv(input, argv);
 			fullCmd = ft_strjoin(addSlash, argv[0]);
 		}
 		else  //No argument (ls)
@@ -117,9 +117,9 @@ void	process(char *input, t_data *data)
 {
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
-			printf("%s", showCmds);
-	else if (!ft_strncmp(input, "cd ", 3))
-		ft_printf("%s\n", input + 5);
+		printf("%s", showCmds);
+	else if (!ft_strncmp(input, "cd", 2) && (input[2] == ' ' || input[2] == '\0'))
+		ft_cd(input, data);
 	else if (!ft_strncmp(input, "echo ", 5))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "env", 3))

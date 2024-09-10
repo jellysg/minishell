@@ -30,4 +30,20 @@ void	initData(t_data *data, char **env)
         i++;
 	}
 	data->env[i] = NULL;
+
+	// init cwd
+	data->cwd = malloc(PATH_MAX);
+	if (!data->cwd)
+	{
+		perror("malloc error");
+		exit(FAILURE);
+	}
+
+	// set cwd to current dir
+	if (getcwd(data->cwd, PATH_MAX) == NULL)
+	{
+		perror("getcwd error");
+		free(data->cwd);
+		exit(FAILURE);
+	}
 }
