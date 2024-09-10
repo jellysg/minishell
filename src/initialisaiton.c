@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 04:48:38 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:38:12 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 20:32:17 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	initData(t_data *data, char **env)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (env[i])
 		i++;
 	data->env = ft_calloc(i + 1, sizeof * data->env);
@@ -27,7 +29,7 @@ void	initData(t_data *data, char **env)
 			data->path = ft_strdup(env[i] + 5);
 			break;
 		}
-        i++;
+		i++;
 	}
 	data->env[i] = NULL;
 

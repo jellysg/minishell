@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:40:25 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:24:53 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@
 #include <readline/history.h>
 
 //Macros
+<<<<<<< HEAD
 # define showCmds "Custom commands: echo | env | exit | showpath\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+=======
+# define showCmds "Custom commands: echo | env | exit | showpath | showargs\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
+>>>>>>> main
 
 # define STDIN 0
 # define STDOUT 1
@@ -42,11 +46,12 @@ typedef struct s_data
 	char	**env;
 	char	*path;
 	char	**args;
-	//char	*input;
+	char	*input;
 }	t_data;
 
 //Initialisation
 void	initData(t_data *data, char **env);
+void	set_argv(char *input, char ***argv);
 
 //Signals
 void	handleSignals();
@@ -68,6 +73,9 @@ void	process(char *input, t_data *data);
 void	ft_cd(char *input, t_data *data);
 void	ft_echo(char *input);
 int	checkNewline(char *input);
+void	ft_env(t_data *data);
+int	ft_exit(t_data *data, bool ctrl_d);
+void	free_data(t_data *data, int exit_code);
 
 //Exit
 void	freeData(t_data *data);
