@@ -6,7 +6,20 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:11:21 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 18:11:23 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 19:26:10 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
+
+void	ft_env(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		printf("%s\n", data->env[i]);
+		i++;
+	}
+}

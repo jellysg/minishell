@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:44:06 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:46:08 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:27:07 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	checkNewline(char *input)
 {
 	//If there is a -n, means FORGO \n at the back
-	if (ft_strncmp(input, "-n ", 3))
+	if (!ft_strncmp(input, "-n ", 3))
 		return (0);
 	else
 		return (1);
