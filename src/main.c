@@ -6,14 +6,14 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 17:38:12 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 17:58:12 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*For commands that have arguments, this reallocs and resets argv*/
-void	setArgv(char *input, char **argv)
+void	set_argv(char *input, char **argv)
 {
 	free (argv[0]);
 	free (argv);
