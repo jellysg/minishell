@@ -20,7 +20,7 @@ all: libft printf $(EXEC_NAME)
 $(EXEC_NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(EXEC_NAME) $(LDFLAGS) $(LIBS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c test.h
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c minishell.h
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 

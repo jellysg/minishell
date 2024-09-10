@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/08/14 15:04:39 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 17:38:12 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../test.h"
+#include "../minishell.h"
 
 /*For commands that have arguments, this reallocs and resets argv*/
 void	setArgv(char *input, char **argv)
@@ -24,7 +24,7 @@ void	setArgv(char *input, char **argv)
 
 /*Executes program by forking off a child process then main process waits
 Uses data for env, input as full command path, argv as the arguments after*/
-void	forkAndExec(t_data *data, char *input, char **argv)
+void	ft_fork_and_exec(t_data *data, char *input, char **argv)
 {
 	pid_t	pid;
 	int	status;
@@ -60,11 +60,11 @@ void	sysCall(char *input, t_data *data)
 	if (ft_strchr(input, '/')) //To check if it's a direct path, then try to execute
 	{
 		if (access(input, X_OK) == 0)
-			forkAndExec(data, input, argv);
+			ft_fork_and_exec(data, input, argv);
 		else if (ft_strchr(input, ' '))
 		{
 			setArgv(input, argv);
-			forkAndExec(data, argv[0], argv);
+			ft_fork_and_exec(data, argv[0], argv);
 		}
 		else
 			perror("Command not found");
@@ -97,7 +97,7 @@ void	sysCall(char *input, t_data *data)
 			for (int i = 0; argv[i]; i++)
 				printf("argv[%d] = %s\n", i, argv[i]);
 			printf("fullCmd: %s\n", fullCmd); */
-			forkAndExec(data, fullCmd, argv);
+			ft_fork_and_exec(data, fullCmd, argv);
 			free(fullCmd);
 			break ;
 		}
@@ -115,31 +115,10 @@ void	sysCall(char *input, t_data *data)
 
 void	process(char *input, t_data *data)
 {
-    int	result;
-
-	result = CMD_NOT_FOUND;
-	if (!ft_strncmp(input, "help", 4))
-			printf("%s", showCmds);
-	if (ft_strncmp(input, "cd ", 3) == 0)
-		result = ft_cd(data);
-	else if (ft_strncmp(input, "pwd ", 4) == 0)
-		result = ft_pwd(data);
-	else if (ft_strncmp(input, "echo ", 5) == 0)
-		result = ft_echo(data);
-	else if (ft_strncmp(input, "env ", 4) == 0)
-		result = ft_env(data);
-	else if (ft_strncmp(input, "export ", 7) == 0)
-		result = ft_export(data);
-	else if (ft_strncmp(input, "unset ", 6) == 0)
-		result = ft_unset(data);
-	else if (ft_strncmp(input, "exit ", 5) == 0)
-		result = ft_exit(data);
-	return (result);
-
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
 			printf("%s", showCmds);
-    else if (!ft_strncmp(input, "cd ", 3))
+	else if (!ft_strncmp(input, "cd ", 3))
 		ft_printf("%s\n", input + 5);
 	else if (!ft_strncmp(input, "echo ", 5))
 		ft_printf("%s\n", input + 5);
@@ -154,7 +133,7 @@ void	process(char *input, t_data *data)
 	else if (!ft_strncmp(input, "showpath", 8))
 		printf("data->path is: %s\n", data->path);
 	else
-		sysCall(input, data);	
+		sysCall(input, data);
 }
 
 void	start(t_data *data)

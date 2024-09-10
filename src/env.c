@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
+
+void    free_ptr(void *ptr)
+{
+    if (ptr != NULL)
+    {
+        free(ptr);
+        ptr = NULL;
+    }
+}
+
 // env_var_count: Returns the number of env vars.
 int	env_count(char **env)
 {

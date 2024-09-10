@@ -6,11 +6,11 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 04:48:38 by wchow             #+#    #+#             */
-/*   Updated: 2024/08/13 06:18:58 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/10 17:38:12 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../test.h"
+#include "../minishell.h"
 
 void	initData(t_data *data, char **env)
 {
@@ -18,8 +18,8 @@ void	initData(t_data *data, char **env)
 	while (env[i])
 		i++;
 	data->env = ft_calloc(i + 1, sizeof * data->env);
-    i = 0;
-    while (env[i])
+	i = 0;
+	while (env[i])
 	{
 		data->env[i] = ft_strdup(env[i]);
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
