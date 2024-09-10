@@ -25,14 +25,10 @@
 #include <readline/history.h>
 
 //Macros
-<<<<<<< HEAD
 # define showCmds "Custom commands: echo | env | exit | showpath\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
-=======
-# define showCmds "Custom commands: echo | env | exit | showpath | showargs\nSystem commands: non-argument syscalls might work e.g. ls | pwd\n"
->>>>>>> main
 
 # define STDIN 0
 # define STDOUT 1
