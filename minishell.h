@@ -54,10 +54,12 @@ void	handleSignals();
 void	ignore_sigquit();
 void	resetPrompt(int signum);
 
-//Env
+//Env utils
+char	**calloc_env(t_data *data, int size);
+bool	env_set(t_data *data, char *key, char *value);
 void    free_ptr(void *ptr);
 int	env_count(char **env);
-bool	is_valid_env(char *var);
+bool	valid_env(char *var);
 int	env_index(char **env, char *var);
 char	*env_value(char **env, char *var);
 
@@ -73,6 +75,9 @@ void	ft_env(t_data *data);
 int	ft_pwd(t_data *data);
 int	ft_exit(t_data *data, bool ctrl_d);
 void	free_data(t_data *data, int exit_code);
+void	free_array(char **str);
+char	**defined_var(char *arg);
+int	ft_export(char **argv, t_data *data);
 
 //Exit
 void	freeData(t_data *data);
