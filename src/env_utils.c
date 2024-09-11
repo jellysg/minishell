@@ -12,6 +12,52 @@
 
 #include "../minishell.h"
 
+char	**calloc_env(t_data *data, int size)
+{
+	char	**result;
+	int		i;
+
+	i = 0;
+	result = ft_calloc(sizeof(result), size + 1);
+	if (!result)
+		return (NULL);
+	while (data->env[i] && i < size)
+	{
+		result[i] = ft_strdup(data->env[i]);
+		free_ptr(data->env[i]);
+		i++;
+	}
+	free(data->env);
+	return (result);
+}
+
+// adds env var to value
+bool	env_set(t_data *data, char *key, char *value)
+{
+	int		index;
+	char	*concat_equals;
+
+	index = env_index(data->env, key);
+	if (value == NULL)
+		value = "";
+	concat_equals = ft_strjoin("=", value);
+	if (index != -1 && data->env[index])
+	{
+		free_ptr(data->env[index]);
+		data->env[index] = ft_strjoin(key, concat_equals);
+	}
+	else
+	{
+		index = env_count(data->env);
+		data->env = calloc_env(data, index + 1);
+		if (!data->env)
+			return (false);
+		data->env[index] = ft_strjoin(key, concat_equals);
+	}
+	free_ptr(concat_equals);
+	return (true);
+}
+
 // free ptr
 void    free_ptr(void *ptr)
 {
@@ -34,7 +80,7 @@ int	env_count(char **env)
 }
 
 // true if the only alnum chars or '_', else false.
-bool	is_valid_env(char *var)
+bool	valid_env(char *var)
 {
 	int	i;
 
@@ -51,7 +97,7 @@ bool	is_valid_env(char *var)
 	return (true);
 }
 
-// index of the variable in the environment matching the string.
+// index of the var in the env matching the string
 int	env_index(char **env, char *var)
 {
 	int		i;
@@ -74,7 +120,7 @@ int	env_index(char **env, char *var)
 	return (-1);
 }
 
-// pointer of the variable in the environment matching the string.
+// pointer of the var in the env matching the string.
 char	*env_value(char **env, char *var)
 {
 	int		i;
