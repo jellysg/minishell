@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 21:24:53 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/11 20:21:27 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_cd(char *input, t_data *data);
 void	ft_echo(char *input);
 int	checkNewline(char *input);
 void	ft_env(t_data *data);
+int	ft_pwd(t_data *data);
 int	ft_exit(t_data *data, bool ctrl_d);
 void	free_data(t_data *data, int exit_code);
 

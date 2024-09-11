@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 18:11:21 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/11 19:59:46 by wchow            ###   ########.fr       */
+/*   Created: 2024/09/11 20:03:11 by wchow             #+#    #+#             */
+/*   Updated: 2024/09/11 20:31:54 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_data *data)
+int	ft_pwd(t_data *data)
 {
-	int	i;
-
-	if (data->args && data->args[1])
-		printf("Invalid. Too many arguments\n");
-	else
+	if (data->cwd)
+		free (data->cwd);
+	data->cwd = malloc(PATH_MAX);
+	if (!getcwd(data->cwd, PATH_MAX))
 	{
-		i = 0;
-		while (data->env[i])
-		{
-			printf("%s\n", data->env[i]);
-			i++;
-		}
+		perror("getcwd failed.");
+		free(data->cwd);
+		return (FAILURE);
 	}
+	printf("%s\n", data->cwd);
+	return (SUCCESS);
 }
