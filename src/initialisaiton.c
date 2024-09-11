@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 04:48:38 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/10 20:32:17 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/11 19:59:09 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	initData(t_data *data, char **env)
 	{
 		data->env[i] = ft_strdup(env[i]);
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-		{
 			data->path = ft_strdup(env[i] + 5);
-			break;
-		}
 		i++;
 	}
 	data->env[i] = NULL;
