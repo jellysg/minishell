@@ -72,6 +72,7 @@ void	ft_cd(char *input, t_data *data);
 void	ft_echo(char *input);
 int	checkNewline(char *input);
 void	ft_env(t_data *data);
+int	ft_pwd(t_data *data);
 int	ft_exit(t_data *data, bool ctrl_d);
 void	free_data(t_data *data, int exit_code);
 void	free_array(char **str);
