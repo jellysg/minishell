@@ -55,6 +55,7 @@ void	ignore_sigquit();
 void	resetPrompt(int signum);
 
 //Env utils
+bool	unset_env(t_data *data, int index);
 char	**calloc_env(t_data *data, int size);
 bool	env_set(t_data *data, char *key, char *value);
 void    free_ptr(void *ptr);
@@ -78,6 +79,7 @@ void	free_data(t_data *data, int exit_code);
 void	free_array(char **str);
 char	**defined_var(char *arg);
 int	ft_export(char **argv, t_data *data);
+int	ft_unset(char **argv, t_data *data);
 
 //Exit
 void	freeData(t_data *data);

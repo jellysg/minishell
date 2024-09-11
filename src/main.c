@@ -133,10 +133,12 @@ void	process(char *input, t_data *data)
 		ft_echo(input + 5);
 	else if (!ft_strncmp(input, "env", 3))
 		ft_env(data);
-  else if (!ft_strncmp(input, "pwd", 3))
+	else if (!ft_strncmp(input, "pwd", 3))
 		ft_pwd(data);
-  else if (!ft_strncmp(input, "export", 6))
+	else if (!ft_strncmp(input, "export", 6))
 		ft_export(data->args, data);
+	else if (!ft_strncmp(input, "unset", 5))
+		ft_unset(data->args, data);
 	else if (!ft_strncmp(input, "exit", 4))
 		ft_exit(data, false);
 	else if (!ft_strncmp(input, "showpath", 8))

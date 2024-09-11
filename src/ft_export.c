@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jergoh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,15 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*	how to test export functionality:
-	1. env
-	2. export test=
-	3. env
-	4. export test=variable
-	5. env
-	6. printenv test
-*/
 
 void	free_array(char **str)
 {
@@ -68,7 +59,7 @@ int	ft_export(char **argv, t_data *data)
 	while (argv[i])
 	{
 		if (!valid_env(argv[i]))
-			return(FAILURE);
+			result = FAILURE;
 		else if (ft_strchr(argv[i], '='))
 		{
 			var_value = defined_var(argv[i]);
