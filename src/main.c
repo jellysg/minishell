@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/11 19:59:33 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/11 20:05:27 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	process(char *input, t_data *data)
 		ft_echo(input + 5);
 	else if (!ft_strncmp(input, "env", 3))
 		ft_env(data);
+	else if (!ft_strncmp(input, "pwd", 3))
+		ft_pwd(data);
 	else if (!ft_strncmp(input, "exit", 4))
 		ft_exit(data, false);
 	else if (!ft_strncmp(input, "showpath", 8))
