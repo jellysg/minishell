@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/14 14:33:04 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/18 14:59:27 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	start(t_data *data);
 void	process(char *input, t_data *data);
 
 //Quotes
-char	*ft_quote(char *input);
+char	*ft_quote(char *input, int i, int j);
 
 //Builtins
 void	ft_cd(char *input, t_data *data);

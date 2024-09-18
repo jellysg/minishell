@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:44:06 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/15 22:53:09 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/18 16:23:44 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ void	ft_echo(char *input)
 
 	newline = checkNewline(input);
 	if (newline == 1)
-		ft_printf("%s\n", ft_quote(input));
+	{
+		if (ft_quote(input, 0, 0))
+			ft_printf("%s\n", ft_quote(input, 0, 0));
+	}
 	else
-		ft_printf("%s", ft_quote(input + 3));
+		if (ft_quote(input + 3, 0, 0))
+			ft_printf("%s", ft_quote(input + 3, 0, 0));
 }
+//echo Hello world "User is: $USER | Shell is: $SHELL" '$USER $SHELL' End
