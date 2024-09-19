@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/11 20:05:27 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/19 20:18:20 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	set_argv(char *input, char ***argv)
 		}
 		free(*argv);
 	}
-	*argv = ft_split(input, ' ');
+	*argv = ft_split(ft_quote(input, 0, 0), ' ');
 }
 
 /*Executes program by forking off a child process then main process waits
