@@ -4,3 +4,6 @@ root 1
 $USER 2
 	2
 
+/bin/bash 3
+
+$SHELL 4

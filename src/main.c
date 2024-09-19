@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/19 20:18:20 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/19 21:26:17 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_fork_and_exec(t_data *data, char *input, char **argv)
 }
 
 /*For system calls from /bin/*/
-void	sysCall(char *input, t_data *data)
+void	sys_call(char *input, t_data *data)
 {
 	//System Calls
 
@@ -146,7 +146,7 @@ void	process(char *input, t_data *data)
 	else if (!ft_strncmp(input, "showargs", 8))
 		printf("data->args[0] is: %s\n", data->args[0]);
 	else
-		sysCall(input, data);
+		sys_call(input, data);
 }
 
 void	start(t_data *data)
