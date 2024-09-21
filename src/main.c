@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/19 21:26:17 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/21 15:33:16 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	process(char *input, t_data *data)
 		printf("data->path is: %s\n", data->path);
 	else if (!ft_strncmp(input, "showargs", 8))
 		printf("data->args[0] is: %s\n", data->args[0]);
-	else
+	else if (data->args[0])
 		sys_call(input, data);
 }
 
