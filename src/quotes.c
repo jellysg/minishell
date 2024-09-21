@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:17:30 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/18 16:34:10 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/21 17:09:50 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,10 @@ void	expand_variables(char **result, char *input, int *i, int *j)
 		var_name[k++] = input[(*i)++];
 	var_name[k] = '\0';
 	var_value = getenv(var_name);
+
+	if (getenv(var_name) == NULL)
+		printf("GETENV FAILED\n");
+
 	if (var_value)
 	{
 		if (!result)
@@ -276,7 +280,7 @@ char	*ft_quote(char *input, int i, int j)
 
 	if (has_matching_quotes(input) != 0)
 		return (0);
-	result = malloc(ft_strlen(input) + 1);
+	result = ft_calloc(ft_strlen(input) + 1, 1);
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"' || input[i] == '$')
@@ -285,7 +289,7 @@ char	*ft_quote(char *input, int i, int j)
 				quoted_str = s_quote(input, &i);  // Pass the pointer to modify i
 			else if (input[i] == '\"' || input[i] == '$')
 				quoted_str = d_quote(input, &i);  // Pass the pointer to modify i
-			ft_strlcpy(&result[j], quoted_str, ft_strlen(quoted_str) + 1);
+			result = ft_strjoin(result, quoted_str);
 			j += ft_strlen(quoted_str);
 			free(quoted_str);
 		}
