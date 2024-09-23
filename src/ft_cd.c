@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void ft_cd(char *input, t_data *data)
+int ft_cd(char *input, t_data *data)
 {
 	char *path;
 	char *curr_dir;
@@ -27,18 +27,18 @@ void ft_cd(char *input, t_data *data)
 		path = env_value(data->env, "HOME");
 		if (!path) {
 			ft_printf("cd: Home directory is not set.\n");
-			return;
+			return (FAILURE);
 		}
 	}
 	if (chdir(path) != 0)
 	{
 		perror("cd error");
-		return;
+		return (FAILURE);
 	}
 	curr_dir = getcwd(NULL, 0);
 	if (!curr_dir) {
 		perror("getcwd error");
-		return;
+		return (FAILURE);
 	}
 	if (data->cwd)
 	{
@@ -50,7 +50,8 @@ void ft_cd(char *input, t_data *data)
 	if (!data->cwd) {
 		perror("ft_strdup error");
 		free(curr_dir);
-		return;
+		return (FAILURE);
 	}
 	free(curr_dir);
+    return (SUCCESS);
 }

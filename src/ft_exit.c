@@ -55,5 +55,5 @@ int	ft_exit(t_data *data, bool ctrl_d)
 		}
 	}
 	free_data(data, 0);
-	return (0);
+	return (SUCCESS);
 }

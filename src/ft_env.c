@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	ft_env(t_data *data)
+int	ft_env(t_data *data)
 {
 	int	i;
 
@@ -27,4 +27,5 @@ void	ft_env(t_data *data)
 			i++;
 		}
 	}
+    return (SUCCESS);
 }

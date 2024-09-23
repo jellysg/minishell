@@ -23,7 +23,7 @@ int	checkNewline(char *input)
 }
 
 /* Custom echo command. If (newline == 1) = no -n. If (newline == 0) = there is -n. */
-void	ft_echo(char *input)
+int	ft_echo(char *input)
 {
 	int	newline;
 
@@ -36,5 +36,6 @@ void	ft_echo(char *input)
 	else
 		if (ft_quote(input + 3, 0, 0))
 			ft_printf("%s", ft_quote(input + 3, 0, 0));
+    return (SUCCESS);
 }
 //echo Hello world "User is: $USER | Shell is: $SHELL" '$USER $SHELL' End

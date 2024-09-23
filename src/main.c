@@ -122,34 +122,138 @@ void	sys_call(char *input, t_data *data)
 	free(argv);
 }
 
-void	process(char *input, t_data *data)
+int	process(char *input, t_data *data)
 {
+	int	result;
+
+	result = 127;
 	//Custom Commands
 	if (!ft_strncmp(input, "help", 4))
+	{
 		printf("%s", showCmds);
+		result = SUCCESS;
+	}
 	else if (!ft_strncmp(input, "cd", 2) && (input[2] == ' ' || input[2] == '\0'))
-		ft_cd(input, data);
+		result = ft_cd(input, data);
 	else if (!ft_strncmp(input, "echo ", 5))
-		ft_echo(input + 5);
+		result = ft_echo(input + 5);
 	else if (!ft_strncmp(input, "env", 3))
-		ft_env(data);
+		result = ft_env(data);
 	else if (!ft_strncmp(input, "pwd", 3))
-		ft_pwd(data);
+		result = ft_pwd(data);
 	else if (!ft_strncmp(input, "export", 6))
-		ft_export(data->args, data);
+		result = ft_export(data->args, data);
 	else if (!ft_strncmp(input, "unset", 5))
-		ft_unset(data->args, data);
+		result = ft_unset(data->args, data);
 	else if (!ft_strncmp(input, "exit", 4))
-		ft_exit(data, false);
+		result = ft_exit(data, false);
 	else if (!ft_strncmp(input, "showpath", 8))
+	{
 		printf("data->path is: %s\n", data->path);
+		result = SUCCESS;
+	}
 	else if (!ft_strncmp(input, "showargs", 8))
-		printf("data->args[0] is: %s\n", data->args[0]);
+  {
+    printf("data->args[0] is: %s\n", data->args[0]);
+    result = SUCCESS;
+  }
 	else if (data->args[0])
+  {
 		sys_call(input, data);
+		result = SUCCESS;
+	}
+	return (result);
 }
 
-void	start(t_data *data)
+void	close_fds(t_cmd *cmd, bool check)
+{
+	if (cmd->io_fd)
+	{
+		if (cmd->io_fd->fd_in != -1)
+			close(cmd->io_fd->fd_in);
+		if (cmd->io_fd->fd_out != -1)
+			close(cmd->io_fd->fd_out);
+		if (check)
+			reinit_io(cmd->io_fd);
+	}
+	close_pipes(cmd, NULL);
+}
+
+int	get_child(t_data *data, t_cmd *cmd)
+{
+	pid_t	wpid;
+	int		temp;
+	int		result;
+
+	close_fds(cmd, false);
+	temp = 0;
+	wpid = 0;
+	while (wpid != -1 || errno != ECHILD)
+	{
+		wpid = waitpid(-1, &result, 0);
+		if (wpid == data->pid)
+			temp = result;
+		continue ;
+	}
+    if (WIFEXITED(temp))
+		result = WEXITSTATUS(temp);
+	else if (WIFSIGNALED(temp))
+		result = 128 + WTERMSIG(temp);
+	else
+		result = temp;
+	return (result);
+}
+
+int	init_child(t_data *data, t_cmd *cmd)
+{
+	while (data->pid != 0 && cmd)
+	{
+		data->pid = fork();
+		if (data->pid == -1)
+			return (FAILURE);
+		else if (data->pid == 0)
+			start(data, cmd);
+		cmd = cmd->next;
+	}
+	return (get_child(data, cmd));
+}
+
+int	prep_exec(t_data *data, t_cmd *cmd)
+{
+	if (!data || !cmd)
+		return (SUCCESS);
+	if (!cmd->command)
+	{
+		if (cmd->io_fd && !check_io(cmd->io_fd))
+			return (FAILURE);
+		return (SUCCESS);
+	}
+	if (!init_pipes(data->cmds, cmd))
+		return (FAILURE);
+	return (127);
+}
+
+int	execute(t_data *data, t_cmd *cmd)
+{
+	int	result;
+
+	result = prep_exec(data, cmd);
+	if (result == 127) // 127 = command not found
+		return (result);
+	if (!cmd->pipe_out && !cmd->prev && check_io(cmd->io_fd))
+	{
+		redir_io(cmd->io_fd);
+		result = process(data->input, data);
+		reinit_io(cmd->io_fd);
+		if (result != 127)
+			return (result);
+	}
+	if (result == 127)
+		return (init_child(data, cmd));
+	return (result);
+}
+
+void	start(t_data *data, t_cmd *c)
 {
 	while (1)
 	{
@@ -158,7 +262,7 @@ void	start(t_data *data)
 		{
 			add_history(data->input); // Add to history if input is not empty
 			set_argv(data->input, &(data->args));
-			process(data->input, data); // Main functions
+			execute(data, c); // Main functions
 			free(data->input);
 		}
 		else if (data->input == NULL) // Handle Ctrl+D (EOF)
@@ -171,15 +275,16 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	t_data	*data;
+    t_cmd   *cmd;
 
 	printf("Type 'help' for available commands\n");
 
 	handleSignals();
 
 	data = ft_calloc (1, sizeof(t_data));
+	cmd = ft_calloc (1, sizeof(t_cmd));
 	initData(data, env);
-
-	start(data);
+	start(data, cmd);
 	ft_exit(data, true);
 	return (0);
 }
