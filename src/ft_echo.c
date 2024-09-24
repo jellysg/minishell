@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:44:06 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/21 16:41:29 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/24 19:59:37 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int	ft_echo(char *input)
 	else
 		if (ft_quote(input + 3, 0, 0))
 			ft_printf("%s", ft_quote(input + 3, 0, 0));
-    return (SUCCESS);
+	return (SUCCESS);
 }
 //echo Hello world "User is: $USER | Shell is: $SHELL" '$USER $SHELL' End

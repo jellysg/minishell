@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:17:30 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/21 17:09:50 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:11:49 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,133 +51,21 @@ during process? Idk yet)
 
 #include "../minishell.h"
 
-/* char	*ft_strtrim_once(char const *s1, char const *set)
+char	*ft_strjoin2(char const *s1, char const *s2)
 {
-	size_t	startlen;
-	size_t	endlen;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	startlen = 0;
-	endlen = ft_strlen(s1) - 1;
-	if (!s1 || !set)
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
+	str = calloc(sizeof(char) * (i + j + 1), 1);
+	if (!str)
 		return (0);
-	if (s1[startlen] && ft_strchr(set, s1[startlen]))
-		startlen++;
-	if (endlen > startlen && ft_strchr(set, s1[endlen]))
-		endlen--;
-	return (ft_substr(s1, startlen, endlen - startlen + 1));
-} */
-
-/* char	*s_quote(char *input)
-{
-	char	*result;
-	int	inquotes = 0;
-	int i = 0, j = 0;
-
-	result = malloc(ft_strlen(input) + 1);
-	while (input[i])
-	{
-		if (input[i] == '\'')
-		{
-			inquotes = !inquotes;
-			i++;
-			continue;
-		}
-		if (inquotes || input[i] != '\'')
-			result[j++] = input[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-char	*expand_variables(char *input, int i, int j, int k)
-{
-	char	*result;
-	char	var_name[1024];
-	char	*var_value;
-	
-	result = malloc(ft_strlen(input) + 1);
-	while (input[i] != '\0')
-	{
-		if (input[i] == '$')
-		{
-			i++;
-			k = 0;
-			while (input[i] && ((ft_isalnum(input[i])) || input[i] == '_'))
-				var_name[k++] = input[i++];
-			var_name[k] = '\0';
-			var_value = getenv(var_name);
-			if (var_value)
-			{
-				ft_strlcpy(&result[j], var_value, ft_strlen(var_value) + 1);
-				j += ft_strlen(var_value);
-			}
-		}
-		else
-			result[j++] = input[i++];
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-char	*d_quote(char *input)
-{
-	char	*result;
-	int	inquotes = 0;
-	int i = 0, j = 0;
-
-	result = malloc(ft_strlen(input) + 1);
-	while (input[i])
-	{
-		if (input[i] == '\"')
-		{
-			inquotes = !inquotes;
-			i++;
-			continue;
-		}
-		if (inquotes || input[i] != '\"')
-			result[j++] = input[i++];
-	}
-	result[j] = '\0';
-	result = expand_variables(result, 0, 0, 0);
-	return (result);
-}
-
-int	has_matching_quotes(char *input, int s_quotes, int d_quotes, int i)
-{
-	while (input[i])
-	{
-		if (input[i] == '\'' && d_quotes % 2 == 0)
-			s_quotes++;
-		if (input[i] == '\"' && s_quotes % 2 == 0)
-			d_quotes++;
-		i++;
-	}
-	if (s_quotes % 2 != 0 || d_quotes % 2 != 0)
-	{
-		if (s_quotes % 2 != 0)
-			ft_printf("unexpected EOF while looking for matching `''\n");
-		else if (d_quotes % 2 != 0)
-			ft_printf("unexpected EOF while looking for matching `\"'\n");
-		return (1);
-	}
-	return (0);
-}
-
-char	*ft_quote(char *input)
-{
-	if (has_matching_quotes(input, 0, 0, 0) != 0)
-		return (0);
-	if (ft_strchr(input, '\''))
-	{
-		input = s_quote(input);
-	}
-	if (ft_strchr(input, '\"'))
-	{
-		input = d_quote(input);
-	}
-	return (input);
-} */
+	ft_strlcpy(str, s1, i + j + 1);
+	ft_strlcat(str, s2, i + j + 1);
+	return (str);
+}	
 
 char	*s_quote(char *input, int *i)
 {
@@ -218,7 +106,7 @@ void	expand_variables(char **result, char *input, int *i, int *j)
 		if (!result)
 			*result = ft_strdup(var_value);
 		else
-			*result = ft_strjoin(*result, var_value);
+			*result = ft_strjoin2(*result, var_value);
 		*j += ft_strlen(var_value);
 	}
 }
@@ -289,7 +177,7 @@ char	*ft_quote(char *input, int i, int j)
 				quoted_str = s_quote(input, &i);  // Pass the pointer to modify i
 			else if (input[i] == '\"' || input[i] == '$')
 				quoted_str = d_quote(input, &i);  // Pass the pointer to modify i
-			result = ft_strjoin(result, quoted_str);
+			result = ft_strjoin2(result, quoted_str);
 			j += ft_strlen(quoted_str);
 			free(quoted_str);
 		}

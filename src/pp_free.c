@@ -21,7 +21,7 @@ void	free_parent(t_pp *p)
 	close(p->outfile);
 	if (p->here_doc)
 		unlink(".heredoc_tmp");
-	while (p->cmd_paths[i])
+	while (p->cmd_paths && p->cmd_paths[i])
 	{
 		free(p->cmd_paths[i]);
 		i++;

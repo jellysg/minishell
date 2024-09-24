@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/23 22:55:17 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/24 19:56:48 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-    t_data  *data;
-    t_cmd   *cmd;
-    t_pp    *pp;
+	t_data  *data;
+	t_cmd   *cmd;
+	t_pp    *pp;
 
-    data = ft_calloc (1, sizeof(t_data));
+	data = ft_calloc (1, sizeof(t_data));
 	cmd = ft_calloc (1, sizeof(t_cmd));
 	pp = ft_calloc (1, sizeof(t_pp));
 

@@ -1,0 +1,9 @@
+root 1
+	2
+
+$USER 2
+	2
+
+/bin/bash 3
+
+$SHELL 4
