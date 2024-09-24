@@ -12,6 +12,25 @@
 
 #include "../minishell.h"
 
+/*For commands that have arguments, this reallocs and resets argv. Triple * cause I need
+to use it for process function and pass in the address of argv*/
+void	set_argv(char *input, char ***argv)
+{
+	int	i;
+
+	if (*argv)
+	{
+		i = 0;
+		while ((*argv)[i])
+		{
+			free((*argv)[i]);
+			i++;
+		}
+		free(*argv);
+	}
+	*argv = ft_split(ft_quote(input, 0, 0), ' ');
+}
+
 /*Executes program by forking off a child process then main process waits
 Uses data for env, input as full command path, argv as the arguments after*/
 void	ft_fork_and_exec(t_data *data, char *input, char **argv)

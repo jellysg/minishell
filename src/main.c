@@ -12,25 +12,6 @@
 
 #include "../minishell.h"
 
-/*For commands that have arguments, this reallocs and resets argv. Triple * cause I need
-to use it for process function and pass in the address of argv*/
-void	set_argv(char *input, char ***argv)
-{
-	int	i;
-
-	if (*argv)
-	{
-		i = 0;
-		while ((*argv)[i])
-		{
-			free((*argv)[i]);
-			i++;
-		}
-		free(*argv);
-	}
-	*argv = ft_split(ft_quote(input, 0, 0), ' ');
-}
-
 int	process(char *input, t_data *data)
 {
 	int	result;
@@ -96,17 +77,24 @@ int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	t_data	*data;
+    t_data  *data;
     t_cmd   *cmd;
+    t_pp    *pp;
+
+    data = ft_calloc (1, sizeof(t_data));
+	cmd = ft_calloc (1, sizeof(t_cmd));
+	pp = ft_calloc (1, sizeof(t_pp));
 
 	printf("Type 'help' for available commands\n");
 
-	handleSignals();
+	handle_signals();
 
-	data = ft_calloc (1, sizeof(t_data));
-	cmd = ft_calloc (1, sizeof(t_cmd));
-	initData(data, env);
+	init_struct_ptrs(data, cmd, pp);
+	init_data(data, env);
 	start(data, cmd);
+	close_pipes(pp);
+	waitpid(-1, NULL, 0);
+	free_parent(pp);
 	ft_exit(data, true);
 	return (0);
 }

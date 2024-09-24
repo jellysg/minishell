@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	resetPrompt(int signum)
+void	reset_prompt(int signum)
 {
 	(void)signum;
 	write (1, "\n", 1);
@@ -29,13 +29,13 @@ void	ignore_sigquit()
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	handleSignals()
+void	handle_signals()
 {
 	struct sigaction	sa;
 	
 	//Signal handling and removing CTL+C (need to add CTRL+/)
 	ignore_sigquit();
-	sa.sa_handler = &resetPrompt; //Gives prompt to usr and waits for input
+	sa.sa_handler = &reset_prompt; //Gives prompt to usr and waits for input
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 }
