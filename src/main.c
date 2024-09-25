@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/24 19:56:48 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/25 19:38:32 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	start(t_data *data, t_pp *p)
 {
 	while (1)
 	{
-		data->input = readline("\033[1;33m<<minishell>>  \033[0m");
+		data->input = readline("\033[1;33m<<Minishell>>  \033[0m");
 		if (data->input && *data->input)
 		{
 			add_history(data->input); // Add to history if input is not empty
