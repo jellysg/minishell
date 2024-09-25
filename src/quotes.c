@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:17:30 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/24 20:11:49 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/25 19:25:29 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ char	*d_quote(char *input, int *i)
 			(*i)++;
 		}
 	}
-	(*i)++;  // Skip the closing double quote
+	if (input[*i] == '\"')
+		(*i)++;	// Skip the closing double quote
 	result[j] = '\0';
 	return (result);
 }
