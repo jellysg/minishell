@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	process(char *input, t_data *data)
+int	process(char *input, t_data *data, t_pp *p, char **av)
 {
 	int	result;
 
@@ -37,6 +37,8 @@ int	process(char *input, t_data *data)
 		result = ft_unset(data->args, data);
 	else if (!ft_strncmp(input, "exit", 4))
 		result = ft_exit(data, false);
+    else if (!ft_strncmp(input, "<", 1))
+		result = get_infile(av, p);
 	else if (!ft_strncmp(input, "showpath", 8))
 	{
 		printf("data->path is: %s\n", data->path);
@@ -55,17 +57,16 @@ int	process(char *input, t_data *data)
 	return (result);
 }
 
-void	start(t_data *data, t_cmd *c)
+void	start(t_data *data, t_pp *p, char **av)
 {
-	(void)c;
 	while (1)
 	{
-		data->input = readline("\033[1;33m<<Nanoshell>>  \033[0m");
+		data->input = readline("\033[1;33m<<minishell>>  \033[0m");
 		if (data->input && *data->input)
 		{
 			add_history(data->input); // Add to history if input is not empty
 			set_argv(data->input, &(data->args));
-			process(data->input, data); // Main functions
+			process(data->input, data, p, av); // Main functions
 			free(data->input);
 		}
 		else if (data->input == NULL) // Handle Ctrl+D (EOF)
@@ -91,7 +92,7 @@ int	main(int argc, char **argv, char **env)
 
 	init_struct_ptrs(data, cmd, pp);
 	init_data(data, env);
-	start(data, cmd);
+	start(data, pp, argv);
 	close_pipes(pp);
 	waitpid(-1, NULL, 0);
 	free_parent(pp);

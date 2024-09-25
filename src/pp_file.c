@@ -57,16 +57,25 @@ void	here_doc(char *argv, t_pp *pp)
 }
 
 
-void	get_infile(char **argv, t_pp *pp)
+int	get_infile(char **argv, t_pp *pp)
 {
-	if (!ft_strncmp("here_doc", argv[1], 9))
+	int	result;
+
+	result = 127;
+	printf("infile\n");
+	if (!ft_strncmp("here_doc", argv[0], 9))
+	{
 		here_doc(argv[2], pp);
-	else
+		result = SUCCESS;
+	}
+	else if (!ft_strncmp(argv[0], "<", 1))
 	{
 		pp->infile = open(argv[1], O_RDONLY);
 		if (pp->infile < 0)
 			msg_error(ERR_INFILE);
+		result = SUCCESS;
 	}
+	return (result);
 }
 
 void	get_outfile(char *argv, t_pp *pp)
