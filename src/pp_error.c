@@ -24,9 +24,3 @@ void	msg_pipe(char *arg)
 	write(2, arg, ft_strlen(arg));
 	write(2, "\n", 1);
 }
-
-void	msg_error(char *err)
-{
-	perror(err);
-	exit (1);
-}

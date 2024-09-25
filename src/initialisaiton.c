@@ -18,18 +18,18 @@ void    init_struct_ptrs(t_data *d, t_cmd *c, t_pp *p)
     d->path = "";
     d->input = "";
     d->cmd = "";
-    d->pid = 0;
+    d->pid = -1;
     c->command = "";
     c->path = "";
-    p->infile = 0;
-    p->outfile = 0;
+    p->infile = -1;
+    p->outfile = -1;
     p->env_path = "";
     p->cmd = "";
     p->here_doc = 0;
-    p->pid = 0;
-    p->cmd_n = 0;
-    p->pipe_n = 0;
-    p->idx = 0;
+    p->pid = -1;
+    p->cmd_n = -1;
+    p->pipe_n = -1;
+    p->idx = -1;
 }
 
 int    init_pipe(t_pp *p, t_data *d, int ac, char **av, char **env)
@@ -37,12 +37,12 @@ int    init_pipe(t_pp *p, t_data *d, int ac, char **av, char **env)
 	if (ac < args_in(av[1], p))
 		return (msg(ERR_INPUT));
 	get_infile(av, p);
-	get_outfile(av[ac - 1], p);
-	p->cmd_n = ac - 3 - p->here_doc;
-	p->pipe_n = 2 * (p->cmd_n - 1);
+	get_outfile(av[ac], p);
+	p->cmd_n = ac - 2 - p->here_doc;
+	p->pipe_n = 2 * (p->cmd_n);
 	p->pipe = (int *)malloc(sizeof(int) * p->pipe_n);
 	if (!p->pipe)
-		msg_error(ERR_PIPE);
+		perror(ERR_PIPE);
 	p->env_path = d->path;
 	p->cmd_paths = ft_split(p->env_path, ':');
 	if (!p->cmd_paths)
