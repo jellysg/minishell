@@ -113,7 +113,6 @@ void	free_child(t_pp *p);
 void	free_pipe(t_pp *p);
 int	msg(char *err);
 void	msg_pipe(char *arg);
-void	msg_error(char *err);
 
 //Env utils
 bool	unset_env(t_data *data, int index);
@@ -131,8 +130,8 @@ void	ft_fork_and_exec(t_data *data, char *input, char **argv);
 void	sys_call(char *input, t_data *data);
 
 //Processing
-void	start(t_data *data, t_pp *p, char **av);
-int	process(char *input, t_data *data, t_pp *p, char **av);
+void	start(t_data *data, t_pp *p);
+int	process(char *input, t_data *data, t_pp *p);
 
 //Quotes
 char	*ft_quote(char *input, int i, int j);

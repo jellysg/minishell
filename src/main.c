@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	process(char *input, t_data *data, t_pp *p, char **av)
+int	process(char *input, t_data *data, t_pp *p)
 {
 	int	result;
 
@@ -37,15 +37,15 @@ int	process(char *input, t_data *data, t_pp *p, char **av)
 		result = ft_unset(data->args, data);
 	else if (!ft_strncmp(input, "exit", 4))
 		result = ft_exit(data, false);
-    else if (!ft_strncmp(input, "<", 1))
-		result = get_infile(av, p);
+	else if (!ft_strncmp(input, "<", 1))
+		result = get_infile(data->args, p);
 	else if (!ft_strncmp(input, "showpath", 8))
 	{
 		printf("data->path is: %s\n", data->path);
 		result = SUCCESS;
 	}
 	else if (!ft_strncmp(input, "showargs", 8))
-  	{
+	{
 		printf("data->args[0] is: %s\n", data->args[0]);
 		result = SUCCESS;
 	}
@@ -57,7 +57,7 @@ int	process(char *input, t_data *data, t_pp *p, char **av)
 	return (result);
 }
 
-void	start(t_data *data, t_pp *p, char **av)
+void	start(t_data *data, t_pp *p)
 {
 	while (1)
 	{
@@ -66,7 +66,7 @@ void	start(t_data *data, t_pp *p, char **av)
 		{
 			add_history(data->input); // Add to history if input is not empty
 			set_argv(data->input, &(data->args));
-			process(data->input, data, p, av); // Main functions
+			process(data->input, data, p); // Main functions
 			free(data->input);
 		}
 		else if (data->input == NULL) // Handle Ctrl+D (EOF)
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **env)
 
 	init_struct_ptrs(data, cmd, pp);
 	init_data(data, env);
-	start(data, pp, argv);
+	start(data, pp);
 	close_pipes(pp);
 	waitpid(-1, NULL, 0);
 	free_parent(pp);

@@ -42,7 +42,7 @@ int    init_pipe(t_pp *p, t_data *d, int ac, char **av, char **env)
 	p->pipe_n = 2 * (p->cmd_n);
 	p->pipe = (int *)malloc(sizeof(int) * p->pipe_n);
 	if (!p->pipe)
-		msg_error(ERR_PIPE);
+		perror(ERR_PIPE);
 	p->env_path = d->path;
 	p->cmd_paths = ft_split(p->env_path, ':');
 	if (!p->cmd_paths)
