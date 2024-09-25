@@ -33,7 +33,7 @@ void	here_doc(char *argv, t_pp *pp)
 
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
-		msg_error(ERR_HEREDOC);
+		perror(ERR_HEREDOC);
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
@@ -52,21 +52,32 @@ void	here_doc(char *argv, t_pp *pp)
 	if (pp->infile < 0)
 	{
 		unlink(".heredoc_tmp");
-		msg_error(ERR_HEREDOC);
+		perror(ERR_HEREDOC);
 	}
 }
 
-
-void	get_infile(char **argv, t_pp *pp)
+int	get_infile(char **args, t_pp *pp)
 {
-	if (!ft_strncmp("here_doc", argv[1], 9))
-		here_doc(argv[2], pp);
+	int	result;
+
+	result = 127;
+	printf("infile start\n");
+	if (!ft_strncmp("here_doc", args[0], 9))
+	{
+		printf("heredoc found\n");
+		here_doc(args[2], pp);
+		result = SUCCESS;
+	}
 	else
 	{
-		pp->infile = open(argv[1], O_RDONLY);
+		printf("No heredoc\n");
+		printf("Opening: %s\n", args[1]);
+		pp->infile = open(args[1], O_RDONLY);
 		if (pp->infile < 0)
-			msg_error(ERR_INFILE);
+			perror(ERR_INFILE);
+		result = SUCCESS;
 	}
+	return (result);
 }
 
 void	get_outfile(char *argv, t_pp *pp)
@@ -76,5 +87,5 @@ void	get_outfile(char *argv, t_pp *pp)
 	else
 		pp->outfile = open(argv, O_CREAT | O_RDWR | O_TRUNC, 0000644);
 	if (pp->outfile < 0)
-		msg_error(ERR_OUTFILE);
+		perror(ERR_OUTFILE);
 }
