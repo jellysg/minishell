@@ -42,6 +42,10 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+
+# define SKIP 1
+# define NOSKIP 0
+
 # define ERR_INFILE "Infile"
 # define ERR_OUTFILE "Outfile"
 # define ERR_INPUT "Invalid number of arguments.\n"
@@ -59,7 +63,8 @@ typedef struct s_data
 	char	*input;
 	char	*cmd;
 	pid_t	pid;
-    struct  s_cmd   *cmds;
+	struct s_token	*token;
+    struct s_cmd   *cmds;
 	struct s_data	*next;
 	struct s_data	*prev;
 }	t_data;
@@ -88,7 +93,37 @@ typedef struct s_pp
 	int	pipe_n;
 	int	*pipe;
 	int	idx;
-}t_pp;
+}	t_pp;
+
+typedef struct s_token
+{	
+	char	*str;
+	char	*str_backup;
+	bool	var_exists;
+	int	type;
+	int	status;
+	bool	join;
+	struct s_token	*prev;
+	struct s_token	*next;
+}	t_token;
+
+enum e_token_types {
+	SPACES = 1,
+	WORD,
+	VAR,
+	PIPE,
+	INPUT,
+	TRUNC,
+	HEREDOC,
+	APPEND,
+	END
+};
+
+enum e_quoting_status {
+	DEFAULT,
+	SQUOTE,
+	DQUOTE
+};
 
 //Initialisation
 void	init_data(t_data *data, char **env);
@@ -99,6 +134,22 @@ void    init_struct_ptrs(t_data *d, t_cmd *c, t_pp *p);
 void	handle_signals();
 void	ignore_sigquit();
 void	reset_prompt(int signum);
+
+//Parsing
+bool	parse_user_input(t_data *data);
+
+//Tokenization
+int	save_sep(t_token **token_lst, char *str, int index, int type);
+int	save_word(t_token **token_lst, char *str, int index, int start);
+int	is_sep(char *str, int i);
+int	set_status(int status, char *str, int i);
+int	save_word_or_sep(int *i, char *str, int start, t_data *data);
+int	tokenization(t_data *data, char *str);
+t_token	*lst_new_token(char *str, char *str_backup, int type, int status);
+void	lst_add_back_token(t_token **alst, t_token *new_node);
+void	lstdelone_token(t_token *lst, void (*del)(void *));
+void	lstclear_token(t_token **lst, void (*del)(void *));
+t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert);
 
 //Pipes
 void	child(t_pp *p, char **argv, char **envp);
@@ -151,5 +202,6 @@ int	ft_unset(char **argv, t_data *data);
 
 //Exit
 void	freeData(t_data *data);
+void	exit_shell(t_data *data, int exno);
 
 #endif
