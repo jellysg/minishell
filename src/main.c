@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:05 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/25 19:38:32 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/30 20:48:36 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	process(char *input, t_data *data, t_pp *p)
 	else if (!ft_strncmp(input, "cd", 2) && (input[2] == ' ' || input[2] == '\0'))
 		result = ft_cd(input, data);
 	else if (!ft_strncmp(input, "echo ", 5))
-		result = ft_echo(input + 5);
+		result = ft_echo(data);
 	else if (!ft_strncmp(input, "env", 3))
 		result = ft_env(data);
 	else if (!ft_strncmp(input, "pwd", 3))
@@ -65,8 +65,9 @@ void	start(t_data *data, t_pp *p)
 		if (data->input && *data->input)
 		{
 			parse_user_input(data); // Add to history if input is not empty
-			set_argv(data->input, &(data->args));
+			set_argv(data->input, &(data->args), data);
 			process(data->input, data, p); // Main functions
+			data->erno = errno;
 			free(data->input);
 		}
 		else if (data->input == NULL) // Handle Ctrl+D (EOF)

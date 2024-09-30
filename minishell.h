@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 05:19:23 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/18 14:59:27 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/30 20:48:01 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@
 
 typedef struct s_data
 {
+	int	erno;
+	char	*temp;
 	char	*cwd;
 	char	**env;
 	char	*path;
@@ -64,7 +66,7 @@ typedef struct s_data
 	char	*cmd;
 	pid_t	pid;
 	struct s_token	*token;
-    struct s_cmd   *cmds;
+	struct s_cmd   *cmds;
 	struct s_data	*next;
 	struct s_data	*prev;
 }	t_data;
@@ -74,7 +76,7 @@ typedef struct s_cmd
 	char	*command;
 	char	*path;
 	char	**args;
-    struct s_pp *pp;
+	struct s_pp *pp;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -127,7 +129,7 @@ enum e_quoting_status {
 
 //Initialisation
 void	init_data(t_data *data, char **env);
-int    init_pipe(t_pp *p, t_data *d, int ac, char **av, char **env);
+int	init_pipe(t_pp *p, t_data *d, int ac, char **av, char **env);
 void    init_struct_ptrs(t_data *d, t_cmd *c, t_pp *p);
 
 //Signals
@@ -176,7 +178,7 @@ int	env_index(char **env, char *var);
 char	*env_value(char **env, char *var);
 
 //Sys call
-void	set_argv(char *input, char ***argv);
+void	set_argv(char *input, char ***argv, t_data *data);
 void	ft_fork_and_exec(t_data *data, char *input, char **argv);
 void	sys_call(char *input, t_data *data);
 
@@ -185,12 +187,11 @@ void	start(t_data *data, t_pp *p);
 int	process(char *input, t_data *data, t_pp *p);
 
 //Quotes
-char	*ft_quote(char *input, int i, int j);
+char	*ft_quote(char *input, int i, int j, t_data *data);
 
 //Builtins
 int	ft_cd(char *input, t_data *data);
-int	ft_echo(char *input);
-int	checkNewline(char *input);
+int	ft_echo(t_data *data);
 int	ft_env(t_data *data);
 int	ft_pwd(t_data *data);
 int	ft_exit(t_data *data, bool ctrl_d);

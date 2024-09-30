@@ -14,7 +14,7 @@
 
 /*For commands that have arguments, this reallocs and resets argv. Triple * cause I need
 to use it for process function and pass in the address of argv*/
-void	set_argv(char *input, char ***argv)
+void	set_argv(char *input, char ***argv, t_data *data)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ void	set_argv(char *input, char ***argv)
 		}
 		free(*argv);
 	}
-	*argv = ft_split(ft_quote(input, 0, 0), ' ');
+	*argv = ft_split(ft_quote(input, 0, 0, data), ' ');
 }
 
 /*Executes program by forking off a child process then main process waits
@@ -72,7 +72,7 @@ void	sys_call(char *input, t_data *data)
 			ft_fork_and_exec(data, input, argv);
 		else if (ft_strchr(input, ' '))
 		{
-			set_argv(input, &argv);
+			set_argv(input, &argv, data);
 			ft_fork_and_exec(data, argv[0], argv);
 		}
 		else
@@ -93,7 +93,7 @@ void	sys_call(char *input, t_data *data)
 		//Try to plug in input to end of path, see if it's a valid cmd
 		if (ft_strchr(input, ' ')) //If there's argument (ls -a)
 		{
-			set_argv(input, &argv);
+			set_argv(input, &argv, data);
 			fullCmd = ft_strjoin(addSlash, argv[0]);
 		}
 		else  //No argument (ls)
