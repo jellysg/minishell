@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:44:06 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/24 19:59:37 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/30 20:53:03 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,28 @@
 int	checkNewline(char *input)
 {
 	//If there is a -n, means FORGO \n at the back
-	if (!ft_strncmp(input, "-n ", 3))
+	if (input && !ft_strncmp(input, "-n ", 3))
 		return (0);
 	else
 		return (1);
 }
 
 /* Custom echo command. If (newline == 1) = no -n. If (newline == 0) = there is -n. */
-int	ft_echo(char *input)
+int	ft_echo(t_data *data)
 {
 	int	newline;
 
-	newline = checkNewline(input);
+	newline = checkNewline(data->args[1]);
 	if (newline == 1)
 	{
-		if (ft_quote(input, 0, 0))
-			ft_printf("%s\n", ft_quote(input, 0, 0));
+		if (ft_quote(data->input + 5, 0, 0, data))
+			ft_printf("%s\n", ft_quote(data->input + 5, 0, 0, data));
 	}
 	else
-		if (ft_quote(input + 3, 0, 0))
-			ft_printf("%s", ft_quote(input + 3, 0, 0));
+	{
+		if (ft_quote(data->input + 5, 0, 0, data))
+			ft_printf("%s", ft_quote(data->input + 8, 0, 0, data));
+	}
 	return (SUCCESS);
 }
 //echo Hello world "User is: $USER | Shell is: $SHELL" '$USER $SHELL' End

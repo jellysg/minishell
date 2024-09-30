@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 04:48:38 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/11 19:59:09 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/30 20:48:18 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void    init_struct_ptrs(t_data *d, t_cmd *c, t_pp *p)
     d->cwd = "";
     d->path = "";
     d->input = "";
+    d->temp = "";
     d->cmd = "";
     d->pid = -1;
     c->command = "";

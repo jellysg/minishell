@@ -6,7 +6,7 @@
 /*   By: wchow <wchow@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:17:30 by wchow             #+#    #+#             */
-/*   Updated: 2024/09/25 19:25:29 by wchow            ###   ########.fr       */
+/*   Updated: 2024/09/30 20:56:07 by wchow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,6 @@ during process? Idk yet)
 
 #include "../minishell.h"
 
-char	*ft_strjoin2(char const *s1, char const *s2)
-{
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	i = ft_strlen(s1);
-	j = ft_strlen(s2);
-	str = calloc(sizeof(char) * (i + j + 1), 1);
-	if (!str)
-		return (0);
-	ft_strlcpy(str, s1, i + j + 1);
-	ft_strlcat(str, s2, i + j + 1);
-	return (str);
-}	
-
 char	*s_quote(char *input, int *i)
 {
 	int	j;
@@ -85,7 +69,7 @@ char	*s_quote(char *input, int *i)
 	return (result);
 }
 
-void	expand_variables(char **result, char *input, int *i, int *j)
+void	expand_variables(char **result, t_data *data, int *i, int *j)
 {
 	char	var_name[1024];
 	char	*var_value;
@@ -93,30 +77,41 @@ void	expand_variables(char **result, char *input, int *i, int *j)
 
 	(*i)++;  // Skip the '$'
 	k = 0;
-	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-		var_name[k++] = input[(*i)++];
+	while (data->temp[*i] && (ft_isalnum(data->temp[*i]) || data->temp[*i] == '_'
+		|| data->temp[*i] == '?'))
+		var_name[k++] = data->temp[(*i)++];
 	var_name[k] = '\0';
 	var_value = getenv(var_name);
 
-	if (getenv(var_name) == NULL)
-		printf("GETENV FAILED\n");
+	/* if (getenv(var_name) == NULL)
+		printf("GETENV FAILED\n"); */
 
+	//Move these into separate func for norm, just &result, &var_value etc.
 	if (var_value)
 	{
 		if (!result)
 			*result = ft_strdup(var_value);
 		else
-			*result = ft_strjoin2(*result, var_value);
+			*result = ft_strjoin(*result, var_value);
 		*j += ft_strlen(var_value);
+	}
+	if (var_name[0] == '?' && var_name[1] == '\0')
+	{
+		if (!result)
+			*result = ft_strdup(ft_itoa(data->erno));
+		else
+			*result = ft_strjoin(*result, ft_itoa(data->erno));
+		*j += ft_strlen(ft_itoa(data->erno));
 	}
 }
 
-char	*d_quote(char *input, int *i)
+char	*d_quote(char *input, int *i, t_data *data)
 {
 	char	*result;
 	int	j;
 
 	j = 0;
+	data->temp = ft_strdup(input);
 	result = malloc(ft_strlen(input) + 1);
 	ft_bzero(result, ft_strlen(input) + 1);
 	if (input[*i] == '\"')
@@ -124,7 +119,7 @@ char	*d_quote(char *input, int *i)
 	while (input[*i] && input[*i] != '\"')
 	{
 		if (input[*i] == '$')  // Expand variables inside double quotes
-			expand_variables(&result, input, i, &j);
+			expand_variables(&result, data, i, &j);
 		else
 		{
 			result[j++] = input[*i];
@@ -134,6 +129,7 @@ char	*d_quote(char *input, int *i)
 	if (input[*i] == '\"')
 		(*i)++;	// Skip the closing double quote
 	result[j] = '\0';
+	free (data->temp);
 	return (result);
 }
 
@@ -162,7 +158,7 @@ int	has_matching_quotes(char *input)
 	return (0);
 }
 
-char	*ft_quote(char *input, int i, int j)
+char	*ft_quote(char *input, int i, int j, t_data *data)
 {
 	char	*quoted_str;
 	char	*result;
@@ -177,8 +173,8 @@ char	*ft_quote(char *input, int i, int j)
 			if (input[i] == '\'')
 				quoted_str = s_quote(input, &i);  // Pass the pointer to modify i
 			else if (input[i] == '\"' || input[i] == '$')
-				quoted_str = d_quote(input, &i);  // Pass the pointer to modify i
-			result = ft_strjoin2(result, quoted_str);
+				quoted_str = d_quote(input, &i, data);  // Pass the pointer to modify i
+			result = ft_strjoin(result, quoted_str);
 			j += ft_strlen(quoted_str);
 			free(quoted_str);
 		}
