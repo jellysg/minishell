@@ -73,10 +73,12 @@ int	get_infile(char **args, t_pp *pp)
 		printf("No heredoc\n");
 		printf("Opening: %s\n", args[1]);
 		pp->infile = open(args[1], O_RDONLY);
+		printf("FD: %d\n", pp->infile);
 		if (pp->infile < 0)
 			perror(ERR_INFILE);
 		result = SUCCESS;
 	}
+	printf("result = %d\n", result);
 	return (result);
 }
 

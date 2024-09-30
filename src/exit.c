@@ -23,3 +23,10 @@ void	freeData(t_data *data)
 	free(data->path);
 	free(data);
 }
+
+void	exit_shell(t_data *data, int exno)
+{
+	if (data)
+		freeData(data);
+	exit(exno);
+}

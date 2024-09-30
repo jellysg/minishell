@@ -64,7 +64,7 @@ void	start(t_data *data, t_pp *p)
 		data->input = readline("\033[1;33m<<Minishell>>  \033[0m");
 		if (data->input && *data->input)
 		{
-			add_history(data->input); // Add to history if input is not empty
+			parse_user_input(data); // Add to history if input is not empty
 			set_argv(data->input, &(data->args));
 			process(data->input, data, p); // Main functions
 			free(data->input);
@@ -89,7 +89,6 @@ int	main(int argc, char **argv, char **env)
 	printf("Type 'help' for available commands\n");
 
 	handle_signals();
-
 	init_struct_ptrs(data, cmd, pp);
 	init_data(data, env);
 	start(data, pp);
